@@ -8,17 +8,22 @@ interface ObjectRepository {
 
     fun getObjects(): Flow<List<Object>>
 
-    fun getDetailedObject(id: Long): Flow<DetailedObject?>
+    fun getDetailedObject(id: Long): Flow<DetailedObject>
 
-    fun addObject(name: String, description: String?, type: String)
+    suspend fun addObject(name: String, description: String?, type: String)
 
-    fun modifyObject(id: Long, name: String, description: String?, type: String)
+    suspend fun modifyObject(id: Long, name: String, description: String?, type: String)
 
-    fun deleteObject(id: Long)
+    suspend fun deleteObject(id: Long)
 
-    fun addRelation(objectId1: Long, objectId2: Long)
+    suspend fun addRelation(objectId1: Long, objectId2: Long)
 
-    fun modifyRelation(oldObjectId1: Long, oldObjectId2: Long, newObjectId1: Long, newObjectId2: Long)
+    suspend fun modifyRelation(
+        oldObjectId1: Long,
+        oldObjectId2: Long,
+        newObjectId1: Long,
+        newObjectId2: Long
+    )
 
-    fun removeRelation(objectId1: Long, objectId2: Long)
+    suspend fun removeRelation(objectId1: Long, objectId2: Long)
 }

@@ -13,12 +13,12 @@ fun ObjectDto.toDomain(): Object = Object(
     type = type,
 )
 
-fun List<ObjectDto>.toDetailedDomain(): DetailedObject? = getOrNull(0)?.let {
+fun List<ObjectDto>.toDetailedDomain(): DetailedObject = with(get(0)) {
     DetailedObject(
-        id = it.objectId,
-        name = it.name,
-        description = it.description,
-        type = it.type,
+        id = objectId,
+        name = name,
+        description = description,
+        type = type,
         relations = takeLast(size - 1).toDomain()
     )
 }
