@@ -3,6 +3,7 @@ package com.vep1940.presentation.screen.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vep1940.domain.model.Object
+import com.vep1940.domain.usecase.AddObject
 import com.vep1940.domain.usecase.DeleteObject
 import com.vep1940.domain.usecase.GetObjects
 import com.vep1940.presentation.model.toPresentation
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 
 class ListScreenViewModel(
     private val getObjects: GetObjects,
+    private val addObject: AddObject,
     private val deleteObject: DeleteObject,
 ) : ViewModel() {
 
@@ -35,10 +37,15 @@ class ListScreenViewModel(
 
     fun onAction(action: ListScreenAction) {
         when (action) {
+            is ListScreenAction.AddItem -> processAdd(action)
             is ListScreenAction.DeleteItem -> processDelete(action)
             else -> { /*DO NOTHING*/
             }
         }
+    }
+
+    private fun processAdd(action: ListScreenAction.AddItem) {
+        //TODO: Implement AddItem into listScreen
     }
 
     private fun processDelete(action: ListScreenAction.DeleteItem) {

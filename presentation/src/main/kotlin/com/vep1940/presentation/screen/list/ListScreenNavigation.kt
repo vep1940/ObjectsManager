@@ -9,7 +9,7 @@ import org.koin.androidx.compose.koinViewModel
 const val LIST_SCREEN_ROUTE = "listScreen"
 
 fun NavGraphBuilder.listScreen(
-    navigateToDetailScreen: (Long?) -> Unit,
+    navigateToDetailScreen: (Long) -> Unit,
 ) {
     composable(LIST_SCREEN_ROUTE) {
         val viewModel: ListScreenViewModel = koinViewModel()
@@ -20,7 +20,6 @@ fun NavGraphBuilder.listScreen(
             action = { action ->
                 viewModel.onAction(action)
                 when (action) {
-                    ListScreenAction.AddItem -> navigateToDetailScreen(null)
                     is ListScreenAction.SelectItem -> navigateToDetailScreen(action.id)
                     else -> { /*DO NOTHING*/
                     }

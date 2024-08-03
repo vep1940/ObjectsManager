@@ -1,15 +1,24 @@
 package com.vep1940.presentation.screen.detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import org.koin.androidx.compose.koinViewModel
 
 const val DETAIL_SCREEN_ROUTE = "detailScreen"
+internal const val DETAIL_OBJECT_ID_PARAM = "DETAIL_OBJECT_ID_PARAM"
 
 fun NavGraphBuilder.detailScreen() {
-    composable(route = DETAIL_SCREEN_ROUTE){
+    composable(
+        route = "$DETAIL_SCREEN_ROUTE/{$DETAIL_OBJECT_ID_PARAM}",
+        arguments = listOf(
+            navArgument(DETAIL_OBJECT_ID_PARAM) { type = NavType.LongType }
+        )
+    ) {
         val viewModel: DetailScreenViewModel = koinViewModel()
         val display = viewModel.display.collectAsStateWithLifecycle()
 
@@ -22,6 +31,11 @@ fun NavGraphBuilder.detailScreen() {
     }
 }
 
-fun NavController.navigateToDetailScreen() {
-    navigate(DETAIL_SCREEN_ROUTE)
+fun NavController.navigateToDetailScreen(objectId: Long) {
+    navigate("$DETAIL_SCREEN_ROUTE/$objectId")
+}
+
+internal class DetailScreenArgs private constructor(val objectId: Long) {
+    constructor(savedStateHandle: SavedStateHandle) :
+            this((checkNotNull(savedStateHandle[DETAIL_OBJECT_ID_PARAM]) as String).toLong())
 }

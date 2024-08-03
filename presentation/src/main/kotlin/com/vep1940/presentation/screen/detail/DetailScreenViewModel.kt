@@ -1,5 +1,6 @@
 package com.vep1940.presentation.screen.detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vep1940.domain.usecase.AddRelation
@@ -24,15 +25,17 @@ class DetailScreenViewModel(
     private val addRelation: AddRelation,
     private val modifyRelation: ModifyRelation,
     private val deleteRelation: DeleteRelation,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    private val initialArgs = DetailScreenArgs(savedStateHandle)
 
     private val _display = MutableStateFlow<DetailScreenState>(DetailScreenState.Loading)
     val display: StateFlow<DetailScreenState> = _display
 
     init {
         viewModelScope.launch {
-            //TODO Pass id from navigation
-            getDetailedObject(0)
+            getDetailedObject(initialArgs.objectId)
                 .map {
                     DetailScreenState.Success(DetailScreenDisplay(it.toPresentation()))
                 }

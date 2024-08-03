@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     startDestination = LIST_SCREEN_ROUTE,
                 ) {
                     listScreen(
-                        navigateToDetailScreen = { navController.navigateToDetailScreen() }
+                        navigateToDetailScreen = { id -> navController.navigateToDetailScreen(id) }
                     )
                     detailScreen()
                 }
