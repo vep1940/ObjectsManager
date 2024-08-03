@@ -2,12 +2,13 @@ package com.vep1940.domain.repository
 
 import com.vep1940.domain.model.DetailedObject
 import com.vep1940.domain.model.Object
+import kotlinx.coroutines.flow.Flow
 
 interface ObjectRepository {
 
-    fun getObjects(): List<Object>
+    fun getObjects(): Flow<List<Object>>
 
-    fun getDetailedObject(id: Long): DetailedObject?
+    fun getDetailedObject(id: Long): Flow<DetailedObject?>
 
     fun addObject(name: String, description: String?, type: String)
 

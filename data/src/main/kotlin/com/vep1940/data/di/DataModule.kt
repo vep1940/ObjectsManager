@@ -7,11 +7,14 @@ import com.vep1940.data.datasource.ObjectDatasource
 import com.vep1940.data.repository.ObjectRepositoryImpl
 import com.vep1940.domain.repository.ObjectRepository
 import data.ObjectQueries
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 
 val dataModule = module {
     single<ObjectRepository> { ObjectRepositoryImpl(get()) }
-    single<ObjectDatasource> { ObjectDatasource(get()) }
+    single<ObjectDatasource> { ObjectDatasource(get(), get()) }
+    single<CoroutineDispatcher> { Dispatchers.IO }
     single<ObjectQueries> { get<Database>().objectQueries }
     single<Database> { Database(get()) }
     single<SqlDriver> { AndroidSqliteDriver(Database.Schema, get(), "object.db") }

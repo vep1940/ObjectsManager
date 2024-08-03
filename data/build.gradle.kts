@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.domain)
 
     implementation(libs.sql.delight.driver)
+    implementation(libs.sql.delight.coroutines)
 
 }
 

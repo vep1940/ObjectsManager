@@ -68,6 +68,7 @@ koin-test = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin" }
 splash-screen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
 
 sql-delight-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
+sql-delight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 
 
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
