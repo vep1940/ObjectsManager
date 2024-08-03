@@ -18,8 +18,6 @@ class UnitTestConventionPlugin : Plugin<Project> {
 
             dependencies {
 
-//                add("testImplementation", project(":test-util"))
-
                 add("testImplementation", libs.getLibrary("coroutine-test"))
 
                 add("testImplementation", libs.getLibrary("junit5-api"))

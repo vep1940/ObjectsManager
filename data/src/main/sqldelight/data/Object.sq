@@ -1,0 +1,57 @@
+CREATE TABLE objectDto (
+  objectId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  description TEXT,
+  type TEXT NOT NULL
+);
+
+CREATE TABLE relationDto (
+    relationId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    objectId1 INTEGER REFERENCES objectDto(objectId),
+    objectId2 INTEGER REFERENCES objectDto(objectId)
+);
+
+getAll:
+SELECT *
+FROM objectDto;
+
+getByIdWithRelations:
+SELECT *
+FROM objectDto
+WHERE objectId = :id
+OR objectId IN (
+    SELECT objectId2
+    FROM relationDto
+    WHERE objectId1 = :id
+)
+OR objectId IN (
+    SELECT objectId1
+    FROM relationDto
+    WHERE objectId2 = :id
+);
+
+insert:
+INSERT INTO objectDto (objectId, name, description, type)
+VALUES (?,?,?,?);
+
+modify:
+UPDATE objectDto
+SET name = ?, description = ?, type = ?
+WHERE objectId = ?;
+
+delete {
+    DELETE FROM relationDto WHERE objectId1 = :id OR objectId2 = :id;
+    DELETE FROM objectDto WHERE objectId = :id;
+}
+
+insertRelation:
+INSERT INTO relationDto (relationId, objectId1, objectId2)
+VALUES (?,?,?);
+
+modifyRelation:
+UPDATE relationDto
+SET objectId1 = ?, objectId2 = ?
+WHERE objectId1 = ? AND objectId2 = ?;
+
+deleteRelation:
+DELETE FROM relationDto WHERE objectId1 = ? AND objectId2 = ?;
