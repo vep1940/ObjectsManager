@@ -8,6 +8,7 @@ import com.vep1940.domain.model.Object
 import com.vep1940.domain.repository.ObjectRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.zip
 
 class ObjectRepositoryImpl(private val objectDatasource: ObjectDatasource) : ObjectRepository {
 
@@ -15,7 +16,13 @@ class ObjectRepositoryImpl(private val objectDatasource: ObjectDatasource) : Obj
         objectDatasource.getAllObjects().map { it.toDomain() }
 
     override fun getDetailedObject(id: Long): Flow<DetailedObject> =
-        objectDatasource.getObjectByIdWithRelations(id = id).map { it.toDetailedDomain() }
+        objectDatasource.getObjectById(id)
+            .zip(objectDatasource.getObjectRelationsById(id)) { objectDto, relations ->
+                Pair(objectDto, relations)
+            }
+            .zip(objectDatasource.getObjectPossibleRelationsById(id)) { (objectDto, relations), possibleRelations ->
+                objectDto.toDetailedDomain(relations, possibleRelations)
+            }
 
     override suspend fun addObject(name: String, description: String?, type: String) {
         objectDatasource.addObject(name = name, description = description, type = type)

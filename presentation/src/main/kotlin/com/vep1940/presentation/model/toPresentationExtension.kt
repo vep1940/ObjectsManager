@@ -15,4 +15,5 @@ fun DetailedObject.toPresentation() =
         description = description,
         type = type,
         relations = relations.toPresentation(),
+        possibleRelations = possibleRelations.toPresentation(),
     )

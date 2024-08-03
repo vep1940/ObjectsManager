@@ -15,16 +15,35 @@ getAll:
 SELECT *
 FROM objectDto;
 
-getByIdWithRelations:
+getById:
 SELECT *
 FROM objectDto
-WHERE objectId = :id
-OR objectId IN (
+WHERE objectId = :id;
+
+getRelationsById:
+SELECT *
+FROM objectDto
+WHERE objectId IN (
     SELECT objectId2
     FROM relationDto
     WHERE objectId1 = :id
 )
 OR objectId IN (
+    SELECT objectId1
+    FROM relationDto
+    WHERE objectId2 = :id
+);
+
+getPossibleRelationsById:
+SELECT *
+FROM objectDto
+WHERE objectId != :id
+AND objectId NOT IN (
+    SELECT objectId2
+    FROM relationDto
+    WHERE objectId1 = :id
+)
+AND objectId NOT IN (
     SELECT objectId1
     FROM relationDto
     WHERE objectId2 = :id

@@ -2,6 +2,7 @@ package com.vep1940.data.datasource
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOne
 import data.ObjectQueries
 import kotlinx.coroutines.CoroutineDispatcher
 
@@ -12,8 +13,13 @@ class ObjectDatasource(
 
     fun getAllObjects() = queries.getAll().asFlow().mapToList(dispatcher)
 
-    fun getObjectByIdWithRelations(id: Long) =
-        queries.getByIdWithRelations(id = id).asFlow().mapToList(dispatcher)
+    fun getObjectById(id: Long) = queries.getById(id = id).asFlow().mapToOne(dispatcher)
+
+    fun getObjectRelationsById(id: Long) =
+        queries.getRelationsById(id = id).asFlow().mapToList(dispatcher)
+
+    fun getObjectPossibleRelationsById(id: Long) =
+        queries.getPossibleRelationsById(id = id).asFlow().mapToList(dispatcher)
 
     fun addObject(name: String, description: String?, type: String) =
         queries.insert(

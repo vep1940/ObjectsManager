@@ -13,12 +13,14 @@ fun ObjectDto.toDomain(): Object = Object(
     type = type,
 )
 
-fun List<ObjectDto>.toDetailedDomain(): DetailedObject = with(get(0)) {
-    DetailedObject(
-        id = objectId,
-        name = name,
-        description = description,
-        type = type,
-        relations = takeLast(size - 1).toDomain()
-    )
-}
+fun ObjectDto.toDetailedDomain(
+    relations: List<ObjectDto>,
+    possibleRelations: List<ObjectDto>,
+): DetailedObject = DetailedObject(
+    id = objectId,
+    name = name,
+    description = description,
+    type = type,
+    relations = relations.toDomain(),
+    possibleRelations = possibleRelations.toDomain(),
+)

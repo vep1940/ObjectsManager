@@ -6,4 +6,5 @@ data class DetailedObject(
     val description: String?,
     val type: String,
     val relations: List<Object>,
+    val possibleRelations: List<Object>,
 )
