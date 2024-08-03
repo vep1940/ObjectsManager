@@ -7,12 +7,15 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.vep1940.presentation.screen.detail.model.DetailScreenAction
 import org.koin.androidx.compose.koinViewModel
 
 const val DETAIL_SCREEN_ROUTE = "detailScreen"
 internal const val DETAIL_OBJECT_ID_PARAM = "DETAIL_OBJECT_ID_PARAM"
 
-fun NavGraphBuilder.detailScreen() {
+fun NavGraphBuilder.detailScreen(
+    openObjectForm: (Long) -> Unit,
+) {
     composable(
         route = "$DETAIL_SCREEN_ROUTE/{$DETAIL_OBJECT_ID_PARAM}",
         arguments = listOf(
@@ -26,7 +29,12 @@ fun NavGraphBuilder.detailScreen() {
             display = display.value,
             action = { action ->
                 viewModel.onAction(action)
-            },
+                when (action) {
+                    is DetailScreenAction.ModifyObject -> openObjectForm(action.id)
+                    else -> { /*NOTHING TO DO HERE*/
+                    }
+                }
+            }
         )
     }
 }

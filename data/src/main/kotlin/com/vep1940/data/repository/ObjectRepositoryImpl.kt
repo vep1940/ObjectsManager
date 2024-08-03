@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.zip
 
 class ObjectRepositoryImpl(private val objectDatasource: ObjectDatasource) : ObjectRepository {
 
+    override suspend fun getObject(id: Long): Object =
+        objectDatasource.getObject(id).toDomain()
+
     override fun getObjects(): Flow<List<Object>> =
         objectDatasource.getAllObjects().map { it.toDomain() }
 
@@ -24,11 +27,11 @@ class ObjectRepositoryImpl(private val objectDatasource: ObjectDatasource) : Obj
                 objectDto.toDetailedDomain(relations, possibleRelations)
             }
 
-    override suspend fun addObject(name: String, description: String?, type: String) {
+    override suspend fun addObject(name: String, description: String, type: String) {
         objectDatasource.addObject(name = name, description = description, type = type)
     }
 
-    override suspend fun modifyObject(id: Long, name: String, description: String?, type: String) {
+    override suspend fun modifyObject(id: Long, name: String, description: String, type: String) {
         objectDatasource.modifyObject(id = id, name = name, description = description, type = type)
     }
 

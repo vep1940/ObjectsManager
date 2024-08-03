@@ -11,6 +11,8 @@ class ObjectDatasource(
     private val dispatcher: CoroutineDispatcher,
 ) {
 
+    fun getObject(id: Long) = queries.getById(id = id).executeAsOne()
+
     fun getAllObjects() = queries.getAll().asFlow().mapToList(dispatcher)
 
     fun getObjectById(id: Long) = queries.getById(id = id).asFlow().mapToOne(dispatcher)
@@ -21,7 +23,7 @@ class ObjectDatasource(
     fun getObjectPossibleRelationsById(id: Long) =
         queries.getPossibleRelationsById(id = id).asFlow().mapToList(dispatcher)
 
-    fun addObject(name: String, description: String?, type: String) =
+    fun addObject(name: String, description: String, type: String) =
         queries.insert(
             objectId = null,
             name = name,
@@ -29,7 +31,7 @@ class ObjectDatasource(
             type = type
         )
 
-    fun modifyObject(id: Long, name: String, description: String?, type: String) =
+    fun modifyObject(id: Long, name: String, description: String, type: String) =
         queries.modify(name = name, description = description, type = type, objectId = id)
 
     fun deleteObject(id: Long) = queries.delete(id = id)

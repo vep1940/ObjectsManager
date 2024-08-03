@@ -6,13 +6,15 @@ import kotlinx.coroutines.flow.Flow
 
 interface ObjectRepository {
 
+    suspend fun getObject(id: Long): Object
+
     fun getObjects(): Flow<List<Object>>
 
     fun getDetailedObject(id: Long): Flow<DetailedObject>
 
-    suspend fun addObject(name: String, description: String?, type: String)
+    suspend fun addObject(name: String, description: String, type: String)
 
-    suspend fun modifyObject(id: Long, name: String, description: String?, type: String)
+    suspend fun modifyObject(id: Long, name: String, description: String, type: String)
 
     suspend fun deleteObject(id: Long)
 

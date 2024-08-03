@@ -10,6 +10,7 @@ const val LIST_SCREEN_ROUTE = "listScreen"
 
 fun NavGraphBuilder.listScreen(
     navigateToDetailScreen: (Long) -> Unit,
+    openObjectForm: () -> Unit,
 ) {
     composable(LIST_SCREEN_ROUTE) {
         val viewModel: ListScreenViewModel = koinViewModel()
@@ -20,8 +21,9 @@ fun NavGraphBuilder.listScreen(
             action = { action ->
                 viewModel.onAction(action)
                 when (action) {
-                    is ListScreenAction.SelectItem -> navigateToDetailScreen(action.id)
-                    else -> { /*DO NOTHING*/
+                    ListScreenAction.AddObject -> openObjectForm()
+                    is ListScreenAction.SelectObject -> navigateToDetailScreen(action.id)
+                    else -> { /* NOTHING TO DO HERE */
                     }
                 }
             },
