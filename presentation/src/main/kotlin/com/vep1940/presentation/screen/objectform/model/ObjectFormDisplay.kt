@@ -5,4 +5,5 @@ data class ObjectFormDisplay(
     val hasNameError: Boolean,
     val description: String,
     val type: String,
+    val hasTypeError: Boolean,
 )

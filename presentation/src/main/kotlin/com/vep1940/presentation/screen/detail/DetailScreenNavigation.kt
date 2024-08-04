@@ -45,5 +45,5 @@ fun NavController.navigateToDetailScreen(objectId: Long) {
 
 internal class DetailScreenArgs private constructor(val objectId: Long) {
     constructor(savedStateHandle: SavedStateHandle) :
-            this((checkNotNull(savedStateHandle[DETAIL_OBJECT_ID_PARAM]) as String).toLong())
+            this(checkNotNull(savedStateHandle.get<Long>(DETAIL_OBJECT_ID_PARAM)))
 }

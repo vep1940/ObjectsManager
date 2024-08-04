@@ -4,4 +4,5 @@ sealed interface ListScreenAction {
     data object AddObject : ListScreenAction
     data class SelectObject(val id: Long) : ListScreenAction
     data class DeleteObject(val id: Long) : ListScreenAction
+    data object OkError : ListScreenAction
 }

@@ -38,6 +38,7 @@ class ObjectFormViewModel(
                             hasNameError = false,
                             description = item.description,
                             type = item.type,
+                            hasTypeError = false,
                         )
                     )
                 }
@@ -50,6 +51,7 @@ class ObjectFormViewModel(
                         hasNameError = true,
                         description = "",
                         type = "",
+                        hasTypeError = true,
                     )
                 )
             }
@@ -58,8 +60,8 @@ class ObjectFormViewModel(
 
     fun onAction(action: ObjectFormAction) {
         when (action) {
-            is ObjectFormAction.DescriptionChange -> onNameChange(action.value)
-            is ObjectFormAction.NameChange -> onDescriptionChange(action.value)
+            is ObjectFormAction.DescriptionChange -> onDescriptionChange(action.value)
+            is ObjectFormAction.NameChange -> onNameChange(action.value)
             is ObjectFormAction.TypeChange -> onTypeChange(action.value)
             ObjectFormAction.SaveObject -> if (modifyingObject) {
                 processModify()
@@ -83,15 +85,13 @@ class ObjectFormViewModel(
 
     private fun onTypeChange(value: String) {
         getDisplay()?.let {
-            onFieldChange(it.copy(type = value))
+            onFieldChange(it.copy(type = value, hasTypeError = value.isBlank()))
         }
     }
 
     private fun onFieldChange(newState: ObjectFormDisplay) {
         viewModelScope.launch {
-            getDisplay()?.let {
-                _display.update { _ -> ObjectFormState.Success(newState) }
-            }
+            _display.update { _ -> ObjectFormState.Success(newState) }
         }
     }
 

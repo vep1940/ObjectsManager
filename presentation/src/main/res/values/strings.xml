@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_message">Error! Can you restart the app?</string>
+    <string name="ok">ok</string>
+    <string name="list_screen_title">List</string>
+    <string name="required_field">*required</string>
+    <string name="description_text_input_label">description</string>
+    <string name="type_text_input_label">type</string>
+    <string name="name_text_input_label">name</string>
+    <string name="description_text_input_placeholder">Entry date: 2018-01-01</string>
+    <string name="type_text_input_placeholder">Employee</string>
+    <string name="name_text_input_placeholder">Max</string>
+    <string name="save_object">Save</string>
+</resources>
