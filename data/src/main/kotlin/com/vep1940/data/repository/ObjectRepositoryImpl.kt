@@ -8,7 +8,6 @@ import com.vep1940.domain.model.Object
 import com.vep1940.domain.repository.ObjectRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.zip
 
 class ObjectRepositoryImpl(private val objectDatasource: ObjectDatasource) : ObjectRepository {
 
@@ -19,13 +18,10 @@ class ObjectRepositoryImpl(private val objectDatasource: ObjectDatasource) : Obj
         objectDatasource.getAllObjects().map { it.toDomain() }
 
     override fun getDetailedObject(id: Long): Flow<DetailedObject> =
-        objectDatasource.getObjectById(id)
-            .zip(objectDatasource.getObjectRelationsById(id)) { objectDto, relations ->
-                Pair(objectDto, relations)
-            }
-            .zip(objectDatasource.getObjectPossibleRelationsById(id)) { (objectDto, relations), possibleRelations ->
-                objectDto.toDetailedDomain(relations, possibleRelations)
-            }
+        objectDatasource.getObjectByIdWithRelations(id = id).map { it.toDetailedDomain() }
+
+    override suspend fun getPossibleRelations(id: Long): List<Object> =
+        objectDatasource.getObjectPossibleRelationsById(id).map { it.toDomain() }
 
     override suspend fun addObject(name: String, description: String, type: String) {
         objectDatasource.addObject(name = name, description = description, type = type)
@@ -44,15 +40,14 @@ class ObjectRepositoryImpl(private val objectDatasource: ObjectDatasource) : Obj
     }
 
     override suspend fun modifyRelation(
-        oldObjectId1: Long,
+        objectId: Long,
         oldObjectId2: Long,
-        newObjectId1: Long,
         newObjectId2: Long
     ) {
         objectDatasource.modifyRelation(
-            oldObjectId1 = oldObjectId1,
+            oldObjectId1 = objectId,
             oldObjectId2 = oldObjectId2,
-            newObjectId1 = newObjectId1,
+            newObjectId1 = objectId,
             newObjectId2 = newObjectId2,
         )
     }

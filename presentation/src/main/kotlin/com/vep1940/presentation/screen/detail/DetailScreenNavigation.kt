@@ -15,6 +15,8 @@ internal const val DETAIL_OBJECT_ID_PARAM = "DETAIL_OBJECT_ID_PARAM"
 
 fun NavGraphBuilder.detailScreen(
     openObjectForm: (Long) -> Unit,
+    openRelationForm: (Long, Long?) -> Unit,
+    okError: () -> Unit,
 ) {
     composable(
         route = "$DETAIL_SCREEN_ROUTE/{$DETAIL_OBJECT_ID_PARAM}",
@@ -26,10 +28,17 @@ fun NavGraphBuilder.detailScreen(
         val display = viewModel.display.collectAsStateWithLifecycle()
 
         DetailScreen(
-            display = display.value,
+            screenState = display.value,
             action = { action ->
                 viewModel.onAction(action)
                 when (action) {
+                    is DetailScreenAction.AddRelation -> openRelationForm(action.id, null)
+                    is DetailScreenAction.ModifyRelation -> openRelationForm(
+                        action.id,
+                        action.relatedId
+                    )
+
+                    is DetailScreenAction.OkError -> okError()
                     is DetailScreenAction.ModifyObject -> openObjectForm(action.id)
                     else -> { /*NOTHING TO DO HERE*/
                     }

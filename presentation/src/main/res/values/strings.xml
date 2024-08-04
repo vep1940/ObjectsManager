@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="error_message">Error! Can you restart the app?</string>
+    <string name="list_screen_error_message">Error! Can you restart the app?</string>
+    <string name="detail_screen_error_message">Error! Maybe that object does not exist anymore?</string>
     <string name="ok">ok</string>
     <string name="list_screen_title">List</string>
     <string name="required_field">*required</string>
@@ -10,5 +11,9 @@
     <string name="description_text_input_placeholder">Entry date: 2018-01-01</string>
     <string name="type_text_input_placeholder">Employee</string>
     <string name="name_text_input_placeholder">Max</string>
-    <string name="save_object">Save</string>
+    <string name="save_config">Save</string>
+    <string name="detail_screen_title">detail</string>
+    <string name="detail_screen_relations_title">Relations:</string>
+    <string name="relation_form_no_possible_relations">Sorry but there aren\'t any other suitable relation to add.</string>
+    <string name="cancel_config">Cancel</string>
 </resources>

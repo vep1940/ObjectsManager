@@ -40,7 +40,7 @@ internal fun ObjectForm(
 
 @Composable
 private fun Success(display: ObjectFormDisplay, action: (ObjectFormAction) -> Unit) {
-    Card(onClick = {}) {
+    Card {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
@@ -74,7 +74,7 @@ private fun Success(display: ObjectFormDisplay, action: (ObjectFormAction) -> Un
                 modifier = Modifier.fillMaxWidth(),
                 enabled = display.hasNameError.not() && display.hasTypeError.not(),
             ) {
-                Text(text = stringResource(id = R.string.save_object))
+                Text(text = stringResource(id = R.string.save_config))
             }
         }
     }
@@ -83,42 +83,6 @@ private fun Success(display: ObjectFormDisplay, action: (ObjectFormAction) -> Un
 @Preview
 @Composable
 private fun ObjectFormPreview() {
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.verticalScroll(rememberScrollState())
-    ) {
-        ObjectForm(
-            screenState = ObjectFormState.Success(
-                ObjectFormDisplay(
-                    name = "",
-                    hasNameError = true,
-                    description = "",
-                    type = "",
-                    hasTypeError = true,
-                )
-            ),
-            action = { }
-        )
-
-        ObjectForm(
-            screenState = ObjectFormState.Success(
-                ObjectFormDisplay(
-                    name = "name",
-                    hasNameError = false,
-                    description = "description",
-                    type = "type",
-                    hasTypeError = false,
-                )
-            ),
-            action = { }
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun ObjectFormPreview2() {
 
     var display by remember {
         mutableStateOf(

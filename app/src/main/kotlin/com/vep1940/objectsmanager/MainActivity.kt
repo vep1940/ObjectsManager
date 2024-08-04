@@ -12,6 +12,8 @@ import com.vep1940.presentation.screen.list.LIST_SCREEN_ROUTE
 import com.vep1940.presentation.screen.list.listScreen
 import com.vep1940.presentation.screen.objectform.navigateToObjectForm
 import com.vep1940.presentation.screen.objectform.objectForm
+import com.vep1940.presentation.screen.relationform.navigateToRelationForm
+import com.vep1940.presentation.screen.relationform.relationForm
 import com.vep1940.presentation.theme.ObjectsManagerTheme
 
 class MainActivity : ComponentActivity() {
@@ -37,10 +39,20 @@ class MainActivity : ComponentActivity() {
                         okError = { finish() },
                     )
                     detailScreen(
-                        openObjectForm = { id -> navController.navigateToObjectForm(id) }
+                        openObjectForm = { id -> navController.navigateToObjectForm(id) },
+                        openRelationForm = { id, relatedId ->
+                            navController.navigateToRelationForm(
+                                id,
+                                relatedId
+                            )
+                        },
+                        okError = { navController.popBackStack() },
                     )
                     objectForm(
-                        saveObject = { navController.popBackStack() }
+                        saveObject = { navController.popBackStack() },
+                    )
+                    relationForm(
+                        saveObject = { navController.popBackStack() },
                     )
                 }
             }

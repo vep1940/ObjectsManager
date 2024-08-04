@@ -12,6 +12,8 @@ interface ObjectRepository {
 
     fun getDetailedObject(id: Long): Flow<DetailedObject>
 
+    suspend fun getPossibleRelations(id: Long): List<Object>
+
     suspend fun addObject(name: String, description: String, type: String)
 
     suspend fun modifyObject(id: Long, name: String, description: String, type: String)
@@ -21,9 +23,8 @@ interface ObjectRepository {
     suspend fun addRelation(objectId1: Long, objectId2: Long)
 
     suspend fun modifyRelation(
-        oldObjectId1: Long,
+        objectId: Long,
         oldObjectId2: Long,
-        newObjectId1: Long,
         newObjectId2: Long
     )
 
