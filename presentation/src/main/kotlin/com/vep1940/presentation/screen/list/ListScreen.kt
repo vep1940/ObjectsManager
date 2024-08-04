@@ -13,6 +13,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import com.vep1940.presentation.R
 import com.vep1940.presentation.component.LoadingScreen
 import com.vep1940.presentation.component.RemovableObjectRow
 import com.vep1940.presentation.model.ObjectDisplay
+import com.vep1940.presentation.modifier.clickableNoEffect
 import com.vep1940.presentation.screen.list.model.ListScreenAction
 import com.vep1940.presentation.screen.list.model.ListScreenDisplay
 import com.vep1940.presentation.screen.list.model.ListScreenState
@@ -69,16 +71,38 @@ private fun Success(
                     .background(color = Color.White)
                     .padding(vertical = 8.dp, horizontal = 16.dp)
             ) {
-                LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    items(
-                        items = display.items,
-                        key = { item -> item.id },
-                    ) { item ->
-                        RemovableObjectRow(
-                            onClick = { action(ListScreenAction.SelectObject(item.id)) },
-                            onRemoveClick = { action(ListScreenAction.DeleteObject(item.id)) },
-                            item = item
+                SearchBar(
+                    query = display.search,
+                    onQueryChange = { searchText -> action(ListScreenAction.Search(searchText)) },
+                    onSearch = { },
+                    active = true,
+                    onActiveChange = {},
+                    placeholder = { Text(text = stringResource(id = R.string.search_placeholder)) },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_search),
+                            contentDescription = "Icon to show that this is a search bar",
                         )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_close),
+                            contentDescription = "Icon to reset the search bar",
+                            modifier = Modifier.clickableNoEffect { action(ListScreenAction.Search("")) },
+                        )
+                    },
+                ) {
+                    LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        items(
+                            items = display.items,
+                            key = { item -> item.id },
+                        ) { item ->
+                            RemovableObjectRow(
+                                onClick = { action(ListScreenAction.SelectObject(item.id)) },
+                                onRemoveClick = { action(ListScreenAction.DeleteObject(item.id)) },
+                                item = item
+                            )
+                        }
                     }
                 }
             }
@@ -106,7 +130,12 @@ private fun Error(action: (ListScreenAction) -> Unit) {
 @Composable
 private fun ListScreenPreview() {
     ListScreen(
-        screenState = ListScreenState.Success(ListScreenDisplay(items = ListScreenPreviewData.items)),
+        screenState = ListScreenState.Success(
+            ListScreenDisplay(
+                items = ListScreenPreviewData.items,
+                search = "",
+            )
+        ),
         action = {},
     )
 }

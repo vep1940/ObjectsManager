@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.vep1940.presentation.R
 import com.vep1940.presentation.model.ObjectDisplay
 
 @Composable
@@ -29,7 +30,7 @@ internal fun SelectableObjectRow(
         rightSlot = {
             if (isSelected) {
                 Icon(
-                    painter = painterResource(id = android.R.drawable.star_big_on),
+                    painter = painterResource(id = R.drawable.icon_check),
                     contentDescription = "selected"
                 )
             }

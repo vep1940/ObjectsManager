@@ -16,4 +16,5 @@
     <string name="detail_screen_relations_title">Relations:</string>
     <string name="relation_form_no_possible_relations">Sorry but there aren\'t any other suitable relation to add.</string>
     <string name="cancel_config">Cancel</string>
+    <string name="search_placeholder">Search</string>
 </resources>
